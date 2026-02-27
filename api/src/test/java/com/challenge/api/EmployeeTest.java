@@ -1,6 +1,7 @@
 package com.challenge.api;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -101,5 +102,34 @@ public class EmployeeTest {
     @Test
     void shouldDeleteEmployee() throws Exception {
         mockMvc.perform(delete("/api/v1/employees/{uuid}", employeeUuid)).andExpect(status().isNoContent());
+    }
+
+    @Test
+    void shouldCreateEmployees() throws Exception {
+
+        CreateEmployeeRequestDto emp1 = new CreateEmployeeRequestDto();
+        emp1.setFirstName("Charlie");
+        emp1.setLastName("Davis");
+        emp1.setSalary(91000);
+        emp1.setAge(42);
+        emp1.setJobTitle("Senior Developer");
+        emp1.setEmail("cdavis@example.com");
+
+        CreateEmployeeRequestDto emp2 = new CreateEmployeeRequestDto();
+        emp2.setFirstName("Bart");
+        emp2.setLastName("Simpson");
+        emp2.setSalary(2000);
+        emp2.setAge(23);
+        emp2.setJobTitle("Associate Developer");
+        emp2.setEmail("bsimpson@example.com");
+
+        List<CreateEmployeeRequestDto> employees = List.of(emp1, emp2);
+        when(employeeService.createEmployees(anyList())).thenReturn(List.of(employeeDto));
+
+        mockMvc.perform(post("/api/v1/employees/bulk")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(employees)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$").isArray());
     }
 }
