@@ -11,9 +11,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+@Slf4j
 @Service
 public class EmployeeServiceImplementation implements EmployeeService {
 
@@ -23,7 +25,7 @@ public class EmployeeServiceImplementation implements EmployeeService {
     // The mapper converts between the database entities (BasicEmployee) and Dtos (EmployeeDto)
     private final EmployeeMapper employeeMapper;
 
-    // Add a Web Client to send post notifications to an external API
+    // Add a Web Client to send post notifications (like SNS in AWS) to an external API
     // This is the modern method compared to a response template where the variable uses polling
     private final WebClient webClient;
 
@@ -35,7 +37,8 @@ public class EmployeeServiceImplementation implements EmployeeService {
         this.employeeMapper = employeeMapper;
 
         // Building the web client with the url to send post notifications to
-        // In the real world, the base url would be hidden in a seperate config file or a key, this is for security and for the ease of switching links in the future
+        // In the real world, the base url would be hidden in a seperate config file or a key, this is for security and
+        // for the ease of switching links in the future
         this.webClient = WebClient.builder()
                 .baseUrl("https://webhook.site/4e19a834-c80a-4965-a485-64755f66fb30")
                 .build();
@@ -45,6 +48,8 @@ public class EmployeeServiceImplementation implements EmployeeService {
     @Override
     public List<EmployeeDto> getAllEmployees() {
         List<BasicEmployee> employees = employeeRepository.findAll();
+
+        log.info("Retrieved {} employees.", employees.size());
         return employees.stream().map(employeeMapper::toDto).collect(Collectors.toList());
     }
 
@@ -54,8 +59,10 @@ public class EmployeeServiceImplementation implements EmployeeService {
     public Optional<EmployeeDto> getEmployeeByUuid(UUID uuid) {
         var employee = employeeRepository.findById(uuid);
 
-        // throws an exception if the user uuid does not exist
-        if (!employeeRepository.existsById(uuid)) {
+        // throws an exception if the employee object is empty
+        if (employee.isEmpty()) {
+            log.error("No record for the employee UUID: {}", uuid);
+
             throw new IllegalArgumentException("Employee not found with id: " + uuid);
         }
 
@@ -77,6 +84,8 @@ public class EmployeeServiceImplementation implements EmployeeService {
         // In the future an UPDATE request would be set and then you would be able to implement this
         var savedEmployeeDto = employeeMapper.toDto(employeeRepository.save(employee));
 
+        log.info("Successfully created employee with UUID: {}", savedEmployeeDto.getUuid());
+
         // Post the employee to the WebClient API
         this.webClient
                 .post() // The definition for the HTTP Method
@@ -94,11 +103,17 @@ public class EmployeeServiceImplementation implements EmployeeService {
         BasicEmployee employee = employeeRepository.findById(uuid).orElse(null);
 
         if (employee == null) {
+            log.error("No record for the employee UUID: {}", uuid);
             return null;
         } else {
             BasicEmployee updatedEmployee = employeeMapper.toEntity(createEmployee);
+
+            // Whatever is not in the dto, we must update manually
             updatedEmployee.setUuid(uuid);
             updatedEmployee.setContractTerminationDate(employee.getContractTerminationDate());
+            updatedEmployee.setContractHireDate(employee.getContractHireDate());
+
+            log.info("Successfully updated employee with UUID: {}", uuid);
             return employeeMapper.toDto(employeeRepository.save(updatedEmployee));
         }
     }
@@ -109,9 +124,11 @@ public class EmployeeServiceImplementation implements EmployeeService {
 
         // throws an exception if the user uuid does not exist
         if (!employeeRepository.existsById(uuid)) {
+            log.error("No record for the employee UUID: {}", uuid);
             throw new IllegalArgumentException("Employee not found with id: " + uuid);
         }
         employeeRepository.deleteById(uuid);
+        log.info("Successfully deleted employee with UUID: {}", uuid);
     }
 
     // Creates a List of employees from the employees.json file
@@ -135,6 +152,8 @@ public class EmployeeServiceImplementation implements EmployeeService {
         // Convert the saved entities back to DTOs to return to the user
         var savedEmployeeDtos =
                 savedEmployee.stream().map(employeeMapper::toDto).collect(Collectors.toList());
+
+        log.info("Successfully created {} employees", savedEmployeeDtos.size());
 
         // Post the employee to the WebClient API
         this.webClient
