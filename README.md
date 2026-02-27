@@ -52,3 +52,9 @@ To format code according to style guidelines, you can run **spotlessApply** task
 
 The spotless plugin will also execute check-and-validation tasks as part of the gradle **build** task.
 `./gradlew build`
+
+To keep the Spring Boot application running: 
+`./gradlew bootRun`
+
+To run JUnit tests: 
+`./gradlew :api:test --tests "com.challenge.api.EmployeeTest"`
