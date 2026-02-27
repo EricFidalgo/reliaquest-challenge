@@ -1,0 +1,26 @@
+[
+  {
+    "firstName": "Alice",
+    "lastName": "Johnson",
+    "salary": 72000,
+    "age": 29,
+    "jobTitle": "Security Analyst",
+    "email": "ajohnson@example.com"
+  },
+  {
+    "firstName": "Bob",
+    "lastName": "Smith",
+    "salary": 68000,
+    "age": 34,
+    "jobTitle": "DevOps Engineer",
+    "email": "bsmith@example.com"
+  },
+  {
+    "firstName": "Charlie",
+    "lastName": "Davis",
+    "salary": 91000,
+    "age": 42,
+    "jobTitle": "Senior Developer",
+    "email": "cdavis@example.com"
+  }
+]

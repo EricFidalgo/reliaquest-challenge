@@ -6,13 +6,14 @@ import com.challenge.api.mapper.EmployeeMapper;
 import com.challenge.api.model.BasicEmployee;
 import com.challenge.api.repository.EmployeeRepository;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
-
 // This class contains the business logic operations by separating the implementation from employee service
+
 @Service
 public class EmployeeServiceImplementation implements EmployeeService {
 
@@ -91,5 +92,27 @@ public class EmployeeServiceImplementation implements EmployeeService {
             throw new IllegalArgumentException("Employee not found with id: " + uuid);
         }
         employeeRepository.deleteById(uuid);
+    }
+
+    // Creates a List of employees from the employees.json file
+    @Override
+    public List<EmployeeDto> createEmployees(List<CreateEmployeeRequestDto> employeeDtos) {
+
+        List<BasicEmployee> employeesToSave = new ArrayList<>();
+
+        // Loop through the list of the dto inputs and map each input and save it to the employeesToSave object
+        for (var employee : employeeDtos) {
+            var employeeMap = employeeMapper.toEntity(employee);
+            employeeMap.setUuid(UUID.randomUUID());
+            employeeMap.setContractHireDate(Instant.now());
+            employeesToSave.add(employeeMap);
+        }
+
+        // Save all at once to repo using saveAll()
+        // savedEmployees is here for data confirmation that it is inside of the db
+        List<BasicEmployee> savedEmployees = employeeRepository.saveAll(employeesToSave);
+
+        // Convert the saved entities back to DTOs to return to the user
+        return savedEmployees.stream().map(employeeMapper::toDto).collect(Collectors.toList());
     }
 }

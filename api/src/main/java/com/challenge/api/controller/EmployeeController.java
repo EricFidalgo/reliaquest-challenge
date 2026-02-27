@@ -49,6 +49,8 @@ public class EmployeeController {
 
     // POST creation by first checking if the employee request variables are valid and are not empty
     // if not valid then call Global exception handler
+    // With the new createEmployees() we would still need this function for simplicity since the input of
+    // createEmployees() takes a list of dicts
     @PostMapping
     public ResponseEntity<EmployeeDto> createEmployee(@Valid @RequestBody CreateEmployeeRequestDto createEmployee) {
         EmployeeDto createdEmployee = employeeService.createEmployee(createEmployee);
@@ -75,5 +77,15 @@ public class EmployeeController {
     public ResponseEntity<Void> deleteEmployee(@PathVariable UUID uuid) {
         employeeService.deleteEmployee(uuid);
         return ResponseEntity.noContent().build();
+    }
+
+    // POST creation of a list of employees
+    @PostMapping("/bulk")
+    public ResponseEntity<List<EmployeeDto>> createEmployees(
+            @Valid @RequestBody List<CreateEmployeeRequestDto> createEmployeeRequests) {
+
+        List<EmployeeDto> createdEmployees = employeeService.createEmployees(createEmployeeRequests);
+
+        return new ResponseEntity<>(createdEmployees, HttpStatus.CREATED);
     }
 }

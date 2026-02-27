@@ -21,4 +21,6 @@ public interface EmployeeService {
     EmployeeDto updateEmployee(CreateEmployeeRequestDto createEmployee, UUID uuid);
 
     void deleteEmployee(UUID uuid);
+
+    List<EmployeeDto> createEmployees(List<CreateEmployeeRequestDto> employeeDtos);
 }
