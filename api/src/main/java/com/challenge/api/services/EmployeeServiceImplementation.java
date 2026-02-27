@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
-// This class contains the business logic operations by separating the implementation from employee service
+import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
 public class EmployeeServiceImplementation implements EmployeeService {
@@ -23,12 +23,22 @@ public class EmployeeServiceImplementation implements EmployeeService {
     // The mapper converts between the database entities (BasicEmployee) and Dtos (EmployeeDto)
     private final EmployeeMapper employeeMapper;
 
+    // Add a Web Client to send post notifications to an external API
+    // This is the modern method compared to a response template where the variable uses polling
+    private final WebClient webClient;
+
     // This constructor uses employeeRepository and employeeMapper to give it the tools it needs
     // employee repository is the repository for accessing employee data
     // employee mapper is the mapper for converting between entity and Dto
     public EmployeeServiceImplementation(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper) {
         this.employeeRepository = employeeRepository;
         this.employeeMapper = employeeMapper;
+
+        // Building the web client with the url to send post notifications to
+        // In the real world, the base url would be hidden in a seperate config file or a key, this is for security and for the ease of switching links in the future
+        this.webClient = WebClient.builder()
+                .baseUrl("https://webhook.site/4e19a834-c80a-4965-a485-64755f66fb30")
+                .build();
     }
 
     // Retrieves all employees from the db and converts them to Dtos
@@ -65,7 +75,17 @@ public class EmployeeServiceImplementation implements EmployeeService {
         // The getContractTerminationDate is not implemented because the termination date is set when the employee gets
         // fired so this should be set to null
         // In the future an UPDATE request would be set and then you would be able to implement this
-        return employeeMapper.toDto(employeeRepository.save(employee));
+        var savedEmployeeDto = employeeMapper.toDto(employeeRepository.save(employee));
+
+        // Post the employee to the WebClient API
+        this.webClient
+                .post() // The definition for the HTTP Method
+                .uri("/") // Uses the base url i wrote in the constructor (base url)
+                .bodyValue(savedEmployeeDto) // This outputs the data that i want to write as a JSON
+                .retrieve() // Execute the call
+                .bodyToMono(Void.class) // We dont need to read the response body from the other server
+                .subscribe(); // Fires our request to the url
+        return savedEmployeeDto;
     }
 
     // Updates an employee based off the UUID and the chosen employee
@@ -109,10 +129,22 @@ public class EmployeeServiceImplementation implements EmployeeService {
         }
 
         // Save all at once to repo using saveAll()
-        // savedEmployees is here for data confirmation that it is inside of the db
-        List<BasicEmployee> savedEmployees = employeeRepository.saveAll(employeesToSave);
+        // savedEmployee is here for data confirmation that it is inside of the db
+        List<BasicEmployee> savedEmployee = employeeRepository.saveAll(employeesToSave);
 
         // Convert the saved entities back to DTOs to return to the user
-        return savedEmployees.stream().map(employeeMapper::toDto).collect(Collectors.toList());
+        var savedEmployeeDtos =
+                savedEmployee.stream().map(employeeMapper::toDto).collect(Collectors.toList());
+
+        // Post the employee to the WebClient API
+        this.webClient
+                .post() // The definition for the HTTP Method
+                .uri("/") // Uses the base url i wrote in the constructor (base url)
+                .bodyValue(savedEmployeeDtos) // This outputs the data that i want to write as a JSON
+                .retrieve() // Execute the call
+                .bodyToMono(Void.class) // We dont need to read the response body from the other server
+                .subscribe(); // Fires our request to the url
+
+        return savedEmployeeDtos;
     }
 }
