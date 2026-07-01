@@ -18,7 +18,7 @@
     "(?i)\\b(?:x264|h[._-]?264|avc)\\b": "H264 AVC",
     "(?i)english|\\beng\\b": "ENG",
     "(?i)spanish|\\bspa\\b|\\besp\\b": "SPA",
-    "(?i)\\bdebridio(?:\\s*scraper)?\\b": "Debridio Scraper",
+    "(?i)\\bdebridio(?:\\s*scraper)?\\b": "Debridio",
     "(?i)\\bcomet\\b": "Comet",
     "(?i)\\btorrentio\\b": "Torrentio"
   },
