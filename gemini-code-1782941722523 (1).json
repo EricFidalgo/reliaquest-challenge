@@ -17,11 +17,14 @@
     "(?i)\\b(?:x265|h[._-]?265|hevc)\\b": "H265 HEVC",
     "(?i)\\b(?:x264|h[._-]?264|avc)\\b": "H264 AVC",
     "(?i)english|\\beng\\b": "🇺🇸",
-    "(?i)spanish|\\bspa\\b|\\besp\\b": "🇪🇸"
+    "(?i)spanish|\\bspa\\b|\\besp\\b": "🇪🇸",
+    "(?i)\\bdebridio(?:\\s*scraper)?\\b": "Debridio",
+    "(?i)\\bcomet\\b": "Comet",
+    "(?i)\\btorrentio\\b": "Torrentio"
   },
   "version": "1.2.0",
   "imageURLs": {
-    "(?i)\\bremux\\b": "https://raw.githubusercontent.com/9mousaa/BetterFormatter/main/images/mono-remux.png",
+    "伤(?i)\\bremux\\b": "https://raw.githubusercontent.com/9mousaa/BetterFormatter/main/images/mono-remux.png",
     "(?i)^(?=.*(?:bluray|blu-ray))(?!.*remux)": "https://raw.githubusercontent.com/9mousaa/BetterFormatter/main/images/mono-bluray.png",
     "(?i)\\b(?:web[-_. ]?dl|webdl|webrip|web-rip)\\b": "https://raw.githubusercontent.com/9mousaa/BetterFormatter/main/images/mono-webdl.png",
     "(?i)\\b(?:seadex|best[\\s._-]?release|alt[\\s._-]?(?:best[\\s._-]?)?release)\\b|ᴀʟᴛ ʀᴇʟᴇᴀsᴇ|ʙᴇsᴛ ʀᴇʟᴇᴀsᴇ": "https://raw.githubusercontent.com/9mousaa/BetterFormatter/main/images/mono-SeaDex.png",
@@ -38,7 +41,10 @@
     "(?i)\\b(?:x265|h[._-]?265|hevc)\\b": "https://raw.githubusercontent.com/je19921/cardgenerator.github.io/refs/heads/main/h265.png",
     "(?i)\\b(?:x264|h[._-]?264|avc)\\b": "https://raw.githubusercontent.com/je19921/cardgenerator.github.io/refs/heads/main/h264.png",
     "(?i)english|\\beng\\b": "",
-    "(?i)spanish|\\bspa\\b|\\besp\\b": ""
+    "(?i)spanish|\\bspa\\b|\\besp\\b": "",
+    "(?i)\\bdebridio(?:\\s*scraper)?\\b": "",
+    "(?i)\\bcomet\\b": "",
+    "(?i)\\btorrentio\\b": ""
   },
   "borderRadiusIndices": {
     "(?i)\\bremux\\b": 3,
@@ -58,7 +64,10 @@
     "(?i)\\b(?:x265|h[._-]?265|hevc)\\b": 3,
     "(?i)\\b(?:x264|h[._-]?264|avc)\\b": 3,
     "(?i)english|\\beng\\b": 3,
-    "(?i)spanish|\\bspa\\b|\\besp\\b": 3
+    "(?i)spanish|\\bspa\\b|\\besp\\b": 3,
+    "(?i)\\bdebridio(?:\\s*scraper)?\\b": 3,
+    "(?i)\\bcomet\\b": 3,
+    "(?i)\\btorrentio\\b": 3
   },
   "backgroundOpacities": {
     "(?i)\\bremux\\b": 1,
@@ -78,7 +87,10 @@
     "(?i)\\b(?:x265|h[._-]?265|hevc)\\b": 1,
     "(?i)\\b(?:x264|h[._-]?264|avc)\\b": 1,
     "(?i)english|\\beng\\b": 1,
-    "(?i)spanish|\\bspa\\b|\\besp\\b": 1
+    "(?i)spanish|\\bspa\\b|\\besp\\b": 1,
+    "(?i)\\bdebridio(?:\\s*scraper)?\\b": 1,
+    "(?i)\\bcomet\\b": 1,
+    "(?i)\\btorrentio\\b": 1
   },
   "tagEnabled": [
     "(?i)\\bremux\\b",
@@ -98,7 +110,10 @@
     "(?i)\\b(?:x265|h[._-]?265|hevc)\\b",
     "(?i)\\b(?:x264|h[._-]?264|avc)\\b",
     "(?i)english|\\beng\\b",
-    "(?i)spanish|\\bspa\\b|\\besp\\b"
+    "(?i)spanish|\\bspa\\b|\\besp\\b",
+    "(?i)\\bdebridio(?:\\s*scraper)?\\b",
+    "(?i)\\bcomet\\b",
+    "(?i)\\btorrentio\\b"
   ],
   "patterns": [
     "(?i)\\bremux\\b",
@@ -118,7 +133,10 @@
     "(?i)\\b(?:x265|h[._-]?265|hevc)\\b",
     "(?i)\\b(?:x264|h[._-]?264|avc)\\b",
     "(?i)english|\\beng\\b",
-    "(?i)spanish|\\bspa\\b|\\besp\\b"
+    "(?i)spanish|\\bspa\\b|\\besp\\b",
+    "(?i)\\bdebridio(?:\\s*scraper)?\\b",
+    "(?i)\\bcomet\\b",
+    "(?i)\\btorrentio\\b"
   ],
   "colorHexValues": {
     "(?i)\\bremux\\b": "#006400",
@@ -138,7 +156,10 @@
     "(?i)\\b(?:x265|h[._-]?265|hevc)\\b": "#006400",
     "(?i)\\b(?:x264|h[._-]?264|avc)\\b": "#B35900",
     "(?i)english|\\beng\\b": "#000000",
-    "(?i)spanish|\\bspa\\b|\\besp\\b": "#000000"
+    "(?i)spanish|\\bspa\\b|\\besp\\b": "#000000",
+    "(?i)\\bdebridio(?:\\s*scraper)?\\b": "#4A148C",
+    "(?i)\\bcomet\\b": "#4A148C",
+    "(?i)\\btorrentio\\b": "#4A148C"
   },
   "borderThicknessIndices": {
     "(?i)\\bremux\\b": 0,
@@ -158,7 +179,10 @@
     "(?i)\\b(?:x265|h[._-]?265|hevc)\\b": 0,
     "(?i)\\b(?:x264|h[._-]?264|avc)\\b": 0,
     "(?i)english|\\beng\\b": 0,
-    "(?i)spanish|\\bspa\\b|\\besp\\b": 0
+    "(?i)spanish|\\bspa\\b|\\besp\\b": 0,
+    "(?i)\\bdebridio(?:\\s*scraper)?\\b": 0,
+    "(?i)\\bcomet\\b": 0,
+    "(?i)\\btorrentio\\b": 0
   },
   "exportDate": "2026-07-01T21:45:00Z",
   "colorIndices": {},
