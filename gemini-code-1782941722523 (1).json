@@ -20,7 +20,7 @@
     "(?i)spanish|\\bspa\\b|\\besp\\b": "SPA",
     "(?i)\\bdebridio(?:\\s*scraper)?\\b": "Debridio",
     "(?i)\\bcomet\\b": "Comet",
-    "(?i)\\btorrentio\\b": "Torrentiol"
+    "(?i)\\btorrentio\\b": "Torrentio"
   },
   "version": "1.2.0",
   "imageURLs": {
