@@ -16,8 +16,8 @@
     "(?i)\\b(?:dv|dovi|dolby[\\s._-]?vision)\\b": "DV",
     "(?i)\\b(?:x265|h[._-]?265|hevc)\\b": "H265 HEVC",
     "(?i)\\b(?:x264|h[._-]?264|avc)\\b": "H264 AVC",
-    "(?i)english|\\beng\\b": "🇺🇸 ENG",
-    "(?i)spanish|\\bspa\\b|\\besp\\b": "🇪🇸 SPA"
+    "(?i)english|\\beng\\b": "🇺🇸",
+    "(?i)spanish|\\bspa\\b|\\besp\\b": "🇪🇸"
   },
   "version": "1.2.0",
   "imageURLs": {
